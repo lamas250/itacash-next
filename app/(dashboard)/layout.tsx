@@ -1,11 +1,13 @@
-import Sidebar from "./_components/Sidebar";
+import { Header } from "@/components/header";
 
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Sidebar />
-      {children}
-    </main>
+    <>
+      <Header />
+      <main className="px-3 lg-px4">
+        {children}
+      </main>
+    </>
   );
 }
