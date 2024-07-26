@@ -1,9 +1,18 @@
-import { date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { date, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
-export const accounts = pgTable('accounts', {
+export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   userId: text('user_id').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
 });
+
+// export const transactions = pgTable('transaction', {
+//   id: text('id').primaryKey(),
+//   title: text('title').notNull(),
+//   amount: integer('amount').notNull(),
+//   userId: text('user_id').notNull(),
+//   date: timestamp('date', { mode: 'date' }).notNull(),
+//   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+// });
 

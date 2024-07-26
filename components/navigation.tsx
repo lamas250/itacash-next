@@ -11,7 +11,7 @@ import { MenuIcon } from "lucide-react";
 const routes = [
   {
     href: '/',
-    label: 'Dashboard'
+    label: 'Inicio'
   },
   {
     href: '/transactions',
