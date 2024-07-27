@@ -9,13 +9,20 @@ import { columns } from "@/app/(dashboard)/categories/columns";
 import { DataTable } from "@/components/data-table";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCategoryBulkDelete } from "@/features/categories/api/use-bulk-delete";
 
 
 const CategoriesPage = () => {
   const newCategory = useNewCategory();
 
   const categoriesQuery = useGetCategories();
-  const accounts = categoriesQuery.data || [];
+  const deleteCategories = useCategoryBulkDelete();
+
+    const accounts = categoriesQuery.data || [];
+
+  const isDisabled =
+    categoriesQuery.isLoading ||
+    deleteCategories.isPending;
 
   if (categoriesQuery.isLoading) {
     return (
@@ -51,7 +58,11 @@ const CategoriesPage = () => {
             columns={columns}
             data={accounts}
             filterKey="nome"
-            onDelete={() => {}}
+            onDelete={(row) => {
+              const ids = row.map((r) => r.original.id);
+              deleteCategories.mutate({ ids });
+            }}
+            disable={isDisabled}
           />
         </CardContent>
       </Card>
