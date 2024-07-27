@@ -1,5 +1,6 @@
 "use client"
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@clerk/nextjs"
 
 export const WelcomeMsg = () => {
@@ -7,10 +8,16 @@ export const WelcomeMsg = () => {
 
   return (
     <div className="flex items-center justify-start h-full">
-      {isLoaded && (
+      {isLoaded ? (
         <div>
           <h1 className="text-2xl font-semibold">
             {user ? `Bem vindo, ${user.firstName} 👋` : 'Bem vindo 👋'}
+          </h1>
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl font-semibold">
+            Bem vindo, 👋
           </h1>
         </div>
       )}

@@ -19,7 +19,7 @@ export const NavButton = ({ href, label, isActive }: Props) => {
         'lg:w-auto',
         'justify-between',
         'font-semibold',
-        'hover:bg-orange-50',
+        'hover:bg-orange-200',
         'hover:text-gray-600',
         'border-none',
         'focus-visible:ring-offset-0',
@@ -28,7 +28,7 @@ export const NavButton = ({ href, label, isActive }: Props) => {
         'text-gray-500',
         'focus:bg-white/30',
         'transition',
-        isActive ? 'bg-orange-100 text-gray-800' : 'bg-transparent text-gray-500',
+        isActive ? 'bg-orange-300 text-gray-800' : 'bg-transparent text-gray-500',
       )}
     >
       <Link href={href}>
