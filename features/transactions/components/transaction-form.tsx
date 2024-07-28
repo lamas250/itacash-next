@@ -1,33 +1,47 @@
 import { z } from 'zod';
 import { Trash } from 'lucide-react';
-import { insertCategorySchema } from '@/db/schema';
+import { insertCategorySchema, insetTransactionSchema } from '@/db/schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select } from '@/components/select';
 
 
-const formSchema = insertCategorySchema.pick({
-  name: true
+const formSchema = z.object({
+  date: z.coerce.date(),
+  amount: z.number().positive(),
+  categoryId: z.string().nullable().optional(),
+  title: z.string(),
 });
 
+const apiSchema = insetTransactionSchema.omit({
+  id: true,
+  createdAt: true
+})
+
 type FormValues = z.input<typeof formSchema>;
+type ApiFormValues = z.input<typeof apiSchema>
 
 type Props = {
   id?: string;
   defaultValues?: FormValues;
-  onSubmit: (values: FormValues) => void;
+  onSubmit: (values: ApiFormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
+  categoryOptions: { label: string, value: string }[];
+  onCreateCategory: (name: string) => void;
 }
 
-export const CategoryForm = ({
+export const TransactionForm = ({
   id,
   defaultValues,
   onSubmit,
   onDelete,
-  disabled
+  disabled,
+  categoryOptions,
+  onCreateCategory
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -35,7 +49,7 @@ export const CategoryForm = ({
   })
 
   const handleSubmit = (values: FormValues) => {
-    onSubmit(values);
+    console.log({values});
   }
 
   const handleDelete = () => {
@@ -51,12 +65,35 @@ export const CategoryForm = ({
         className="flex flex-col gap-4 pt-6"
       >
         <FormField
-          name='name'
+          name='categoryId'
           control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Name
+                Categoria
+              </FormLabel>
+              <FormControl>
+                <Select
+                  placeholder='Selecione uma categoria'
+                  options={categoryOptions}
+                  onCreate={onCreateCategory}
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={disabled}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        >
+
+        </FormField>
+        <FormField
+          name='amount'
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Valor
               </FormLabel>
               <FormControl>
                 <Input

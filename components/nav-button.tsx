@@ -26,7 +26,6 @@ export const NavButton = ({ href, label, isActive }: Props) => {
         'focus-visible:ring-transparent',
         'outline-none',
         'text-gray-500',
-        'focus:bg-white/30',
         'transition',
         isActive ? 'bg-orange-300 text-gray-800' : 'bg-transparent text-gray-500',
       )}

@@ -59,7 +59,7 @@ export const Navigation = () => {
             size={'sm'}
             className="font-semibold
             bg-orange-100
-            hover:bg-orange-50
+            hover:bg-orange-100
             hover:text-gray-600
             border-none
             focus-visible:ring-offset-0

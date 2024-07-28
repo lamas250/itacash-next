@@ -6,6 +6,7 @@ import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { InferResponseType } from "hono"
 import { client } from "@/lib/hono"
+import { Actions } from "@/app/(dashboard)/categories/actions"
 
 export type ResponseType = InferResponseType<typeof client.api.categories.$get, 200>["data"][0]
 
@@ -44,6 +45,13 @@ export const columns: ColumnDef<ResponseType>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
+    },
+  },
+  {
+    id: "actions",
+    header: "Ações",
+    cell: ({ row }) => {
+      return (<Actions id={row.original.id} />)
     },
   }
 ]
