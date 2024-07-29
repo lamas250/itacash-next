@@ -1,36 +1,55 @@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { insertCategorySchema } from "@/db/schema";
-import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
-import { useEditCategory } from "@/features/categories/api/use-edit-category";
-import { useGetCategory } from "@/features/categories/api/use-get-category";
-import { CategoryForm } from "@/features/categories/components/category-form";
-import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
+import { insetTransactionSchema } from "@/db/schema";
+import { useCreateCategory } from "@/features/categories/api/use-create-category";
+import { useGetCategories } from "@/features/categories/api/use-get-categories";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transactions";
+import { useEditTransaction } from "@/features/transactions/api/use-edit-transactions";
+import { useGetTransaction } from "@/features/transactions/api/use-get-transaction";
+import { TransactionForm } from "@/features/transactions/components/transaction-form";
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
+import { convertAmountFromCents, convertAmountInCents } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 
-const formSchema = insertCategorySchema.pick({
-  name: true
-});
+const formSchema = insetTransactionSchema.omit({
+  id: true,
+  createdAt: true,
+  userId: true,
+})
 
 type FormValues = z.input<typeof formSchema>;
 
-export const EditCategorySheet = () => {
-  const { isOpen, onClose, id } = useOpenCategory();
+export const EditTransactionSheet = () => {
+  const { isOpen, onClose, id } = useOpenTransaction();
 
   const [ConfirmDialog, confirm] = useConfirm(
-    'Deseja realmente deletar esta categoria?',
+    'Deseja realmente deletar esta transação?',
     'Confirmar exclusão',
   )
 
-  const categoryQuery = useGetCategory(id);
-  const editMutation = useEditCategory(id);
-  const deleteMutation = useDeleteCategory(id);
+  const transactionQuery = useGetTransaction(id);
+  const editMutation = useEditTransaction(id);
+  const deleteMutation = useDeleteTransaction(id);
 
-  const isPending = editMutation.isPending ||
-    deleteMutation.isPending;
+  const categoryQuery = useGetCategories();
+  const categoryMutation = useCreateCategory();
+  const onCreateCategory = (name: string) => categoryMutation.mutate({
+    name,
+  })
+  const categoryOptions = (categoryQuery.data ?? []).map((category) => ({
+    label: category.name,
+    value: category.id
+  }));
 
-  const isLoading = categoryQuery.isLoading;
+  const isPending = editMutation.isPending
+    || deleteMutation.isPending
+    || categoryQuery.isLoading
+    || categoryMutation.isPending
+    || transactionQuery.isLoading;
+
+  const isLoading = transactionQuery.isLoading
+    || categoryQuery.isLoading;
 
   const onSubmit = (values: FormValues) => {
     editMutation.mutate(values, {
@@ -40,11 +59,17 @@ export const EditCategorySheet = () => {
     });
   }
 
-  const defaultValues = categoryQuery.data ? {
-    name: categoryQuery.data.name
+  const defaultValues = transactionQuery.data ? {
+    categoryId: transactionQuery.data.categoryId,
+    amount: convertAmountFromCents(transactionQuery.data.amount).toString(),
+    date: transactionQuery.data.date ? new Date(transactionQuery.data.date) : new Date(),
+    title: transactionQuery.data.title,
   } : {
-    name: ''
-    }
+    categoryId: '',
+    amount: '',
+    date: new Date(),
+    title: '',
+  }
 
   const onDelete = async () => {
     const ok = await confirm();
@@ -64,10 +89,10 @@ export const EditCategorySheet = () => {
         <SheetContent className="space-y-4">
           <SheetHeader>
             <SheetTitle>
-              Editar categoria
+              Editar transação
             </SheetTitle>
             <SheetDescription>
-              Edite os dados da categoria.
+              Edite os dados da transação.
             </SheetDescription>
           </SheetHeader>
           {isLoading ? (
@@ -75,12 +100,14 @@ export const EditCategorySheet = () => {
               <Loader2 className="size-4 text-muted-foreground animate-spin" />
             </div>
           ) : (
-            <CategoryForm
+            <TransactionForm
               id={id}
               onSubmit={onSubmit}
               disabled={isPending}
               defaultValues={defaultValues}
               onDelete={onDelete}
+              categoryOptions={categoryOptions}
+              onCreateCategory={onCreateCategory}
             />
           )}
         </SheetContent>

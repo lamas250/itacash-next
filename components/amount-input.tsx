@@ -62,6 +62,7 @@ export const AmountInput = ({
         decimalsLimit={2}
         onValueChange={onChange}
         decimalScale={2}
+        intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
       />
       <p className='text-xs text-muted-foreground mt-2'>
         {isIncome && 'A transacação sera uma receita'}

@@ -4,27 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 
-import { columns } from "@/app/(dashboard)/categories/columns";
 import { DataTable } from "@/components/data-table";
-import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCategoryBulkDelete } from "@/features/categories/api/use-bulk-delete";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
-import { useGetTransactions } from "@/features/transactions/api/use-get-transaction";
+import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useTransactionBulkDelete } from "@/features/transactions/api/use-bulk-delete-transactions";
+import { columns } from "@/app/(dashboard)/transactions/columns";
 
 
 const TransactionsPage = () => {
   const newTransactionSheet = useNewTransaction();
 
   const transactionsQuery = useGetTransactions();
-  const deleteCategories = useTransactionBulkDelete();
+  const deleteTransactions = useTransactionBulkDelete();
 
-    const transactions = transactionsQuery.data || [];
+  const transactions = transactionsQuery.data || [];
 
   const isDisabled =
     transactionsQuery.isLoading ||
-    deleteCategories.isPending;
+    deleteTransactions.isPending;
 
   if (transactionsQuery.isLoading) {
     return (
@@ -56,17 +54,17 @@ const TransactionsPage = () => {
           </Button>
         </CardHeader>
         <CardContent>
-          {/* <DataTable
+          <DataTable
             columns={columns}
-            data={accounts}
+            data={transactions}
             filterKey="name"
             filterLabel="nome"
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
-              deleteCategories.mutate({ ids });
+              deleteTransactions.mutate({ ids });
             }}
             disable={isDisabled}
-          /> */}
+          />
         </CardContent>
       </Card>
     </div>

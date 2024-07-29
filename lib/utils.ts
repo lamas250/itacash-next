@@ -12,3 +12,7 @@ export const convertAmountInCents = (currency: number) => {
 export const convertAmountFromCents = (currency: number) => {
   return currency / 100;
 }
+
+export const formatCurrency = (currency: number) => {
+  return currency.toLocaleString('pt-br', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+}
