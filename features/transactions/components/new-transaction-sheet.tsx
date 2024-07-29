@@ -11,6 +11,7 @@ import { z } from "zod";
 
 const formSchema = insetTransactionSchema.omit({
   id: true,
+  userId: true,
   createdAt: true,
 });
 
