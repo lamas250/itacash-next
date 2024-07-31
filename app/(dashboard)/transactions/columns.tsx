@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { AlertTriangle, ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { InferResponseType } from "hono"
 import { client } from "@/lib/hono"
@@ -10,6 +10,7 @@ import { format } from "date-fns"
 import { formatCurrency } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Actions } from "@/app/(dashboard)/transactions/actions"
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction"
 
 export type ResponseType = InferResponseType<typeof client.api.transactions.$get, 200>["data"][0]
 
@@ -59,8 +60,19 @@ export const columns: ColumnDef<ResponseType>[] = [
     accessorKey: "category",
     header: "Categoria",
     cell: ({ row }) => {
+      if (row.original.categoryIcon === null) {
+        return (
+          <button className="flex flex-row items-center text-rose-600">
+            <AlertTriangle className="text-2xl pr-1" />
+            <span className="font-semibold">Sem categoria</span>
+          </button>
+        )
+      }
       return (
-        <span className="font-semibold">{row.getValue('category')}</span>
+        <div>
+          {row.original.categoryIcon && (<span className="text-2xl pr-2" role="img">{row.original.categoryIcon}</span>)}
+          <span className="font-semibold">{row.getValue('category')}</span>
+        </div>
       )
     }
   },

@@ -36,6 +36,7 @@ const app = new Hono()
         .select({
           id: transactions.id,
           category: categories.name,
+          categoryIcon: categories.icon,
           categoryId: transactions.categoryId,
           title: transactions.title,
           amount: transactions.amount,

@@ -48,6 +48,17 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
   },
   {
+    accessorKey: "icon",
+    header: 'Icone',
+    cell: ({ row }) => {
+      return (
+        <span className="text-2xl" role="img">
+          {row.original.icon}
+        </span>
+      )
+    }
+  },
+  {
     id: "actions",
     header: "Ações",
     cell: ({ row }) => {

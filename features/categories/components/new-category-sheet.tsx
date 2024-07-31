@@ -6,7 +6,8 @@ import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 import { z } from "zod";
 
 const formSchema = insertCategorySchema.pick({
-  name: true
+  name: true,
+  icon: true
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -23,10 +24,6 @@ export const NewCategorySheet = () => {
     });
   }
 
-  const onDelete = () => {
-    console.log('Delete');
-  }
-
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4">
@@ -40,9 +37,9 @@ export const NewCategorySheet = () => {
         </SheetHeader>
         <CategoryForm
           onSubmit={onSubmit}
-          onDelete={onDelete}
           defaultValues={{
-            name: ''
+            name: '',
+            icon: ''
           }}
         />
       </SheetContent>

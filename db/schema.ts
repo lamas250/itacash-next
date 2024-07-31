@@ -6,6 +6,7 @@ import { z } from "zod";
 export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
+  icon: text('icon').notNull(),
   userId: text('user_id').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
 });
@@ -16,7 +17,7 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 
 export const insertCategorySchema = createInsertSchema(categories);
 
-export const transactions = pgTable('transaction', {
+export const transactions = pgTable('transactions', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
   amount: integer('amount').notNull(),

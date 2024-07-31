@@ -1,30 +1,10 @@
-"use client";
+import { DataGrid } from "@/app/(dashboard)/_components/data-grid";
 
-import { Button } from "@/components/ui/button";
-import { useGetCategories } from "@/features/categories/api/use-get-categories";
-import { useNewCategory } from "@/features/categories/hooks/use-new-category";
-
-import { useUser } from "@clerk/nextjs";
-
-export default function Home() {
-  const user = useUser();
-  const { data: categories, isLoading } = useGetCategories();
-  const { isOpen, onOpen } = useNewCategory();
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+export default function DashboardPage() {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-10">
-      <p>{isOpen ? 'true' : 'false'}</p>
-      <Button onClick={onOpen}>Click me</Button>
-      <p>{user.user?.id}</p>
-      <ul>
-        {categories?.map((category) => (
-          <li key={category.id}>{category.name}</li>
-        ))}
-      </ul>
-    </main>
+    <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+      <DataGrid />
+    </div>
   );
 }

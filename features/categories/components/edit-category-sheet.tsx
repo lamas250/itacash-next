@@ -10,7 +10,8 @@ import { Loader2 } from "lucide-react";
 import { z } from "zod";
 
 const formSchema = insertCategorySchema.pick({
-  name: true
+  name: true,
+  icon: true
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -41,10 +42,12 @@ export const EditCategorySheet = () => {
   }
 
   const defaultValues = categoryQuery.data ? {
-    name: categoryQuery.data.name
+    name: categoryQuery.data.name,
+    icon: categoryQuery.data.icon
   } : {
-    name: ''
-    }
+    name: '',
+    icon: ''
+  }
 
   const onDelete = async () => {
     const ok = await confirm();

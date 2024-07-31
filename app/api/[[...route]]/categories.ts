@@ -22,7 +22,8 @@ const app = new Hono()
       const data = await db
         .select({
           id: categories.id,
-          name: categories.name
+          name: categories.name,
+          icon: categories.icon
         })
         .from(categories)
         .where(eq(categories.userId, user.userId));
@@ -31,8 +32,9 @@ const app = new Hono()
     })
   .post('/',
     clerkMiddleware(),
-    zValidator('json', insertCategorySchema.pick({
-      name: true,
+    zValidator('json', z.object({
+      name: z.string(),
+      icon: z.string()
     })),
     async (c) => {
       const user = getAuth(c);
@@ -41,13 +43,14 @@ const app = new Hono()
         return c.json({ error: 'Unauthorized' }, 401)
       }
 
-      const { name } = c.req.valid('json');
+      const { name, icon } = c.req.valid('json');
 
       const data = await db.insert(categories)
         .values({
           id: createId(),
           userId: user.userId,
-          name
+          name,
+          icon
         }).returning()
 
       return c.json({ data: data[0] });
@@ -103,7 +106,8 @@ const app = new Hono()
       const data = await db
         .select({
           id: categories.id,
-          name: categories.name
+          name: categories.name,
+          icon: categories.icon
         })
         .from(categories)
         .where(
@@ -127,6 +131,7 @@ const app = new Hono()
     })),
     zValidator('json', insertCategorySchema.pick({
       name: true,
+      icon: true
     })),
     async (c) => {
       const user = getAuth(c);
@@ -141,11 +146,12 @@ const app = new Hono()
         return c.json({ error: 'Missing Id' }, 400)
       }
 
-      const { name } = c.req.valid('json');
+      const { name, icon } = c.req.valid('json');
 
       const data = await db.update(categories)
         .set({
-          name
+          name,
+          icon
         })
         .where(
           and(
