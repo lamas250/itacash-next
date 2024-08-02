@@ -1,4 +1,4 @@
-import Logo from "@/components/logo";
+import { Logo } from "@/components/logo";
 import { Navigation } from "@/components/navigation";
 import { WelcomeMsg } from "@/components/welcome-msg";
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
