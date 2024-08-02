@@ -5,7 +5,7 @@ export type LogoProps = {
   size?: 'sm' | 'md' | 'lg'
 }
 
-export default function Logo({ size = 'md' }) {
+export const Logo = ({ size = 'md' }) => {
   const sizes: { [key: string]: number } = {
     'sm': 24,
     'md': 32,
