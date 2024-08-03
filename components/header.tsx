@@ -1,3 +1,4 @@
+import { Filters } from "@/components/filters";
 import { Logo } from "@/components/Logo";
 import { Navigation } from "@/components/navigation";
 import { WelcomeMsg } from "@/components/welcome-msg";
@@ -24,6 +25,7 @@ export const Header = () => {
           </ClerkLoading>
         </div>
         <WelcomeMsg />
+        <Filters />
       </div>
     </header>
   );

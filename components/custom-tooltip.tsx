@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { formatCurrency } from '@/lib/utils';
+import { convertAmountFromCents, formatCurrency } from '@/lib/utils';
 import { format } from 'date-fns'
 
 
@@ -24,7 +24,7 @@ export const CustomTooltip = ({ active, payload }: any) => {
                 Receita
               </p>
             <p className='text-sm text-right font-medium'>
-              {formatCurrency(income)}
+              {formatCurrency(convertAmountFromCents(income))}
             </p>
           </div>
           <div className='flex items-center gap-x-2'>
@@ -33,7 +33,7 @@ export const CustomTooltip = ({ active, payload }: any) => {
                 Despesa
               </p>
             <p className='text-sm text-right font-medium'>
-              {formatCurrency(expenses)}
+              {formatCurrency(convertAmountFromCents(expenses))}
             </p>
           </div>
         </div>

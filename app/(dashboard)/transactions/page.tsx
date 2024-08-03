@@ -19,7 +19,6 @@ const TransactionsPage = () => {
   const deleteTransactions = useTransactionBulkDelete();
 
   const transactions = transactionsQuery.data || [];
-  console.log('tttt', transactions);
 
   const isDisabled =
     transactionsQuery.isLoading ||

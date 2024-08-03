@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
-import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
-import { de } from "date-fns/locale";
+import { eachDayOfInterval, format, getMonth, isSameDay, subDays } from "date-fns";
+import { de, ptBR } from "date-fns/locale";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -63,6 +63,10 @@ export function fillMissingDays(
 type Period = {
   from: string | Date | undefined;
   to: string | Date | undefined;
+}
+
+export function formatMonthFilterLabel(date: Date) {
+  return `${format(date, "MMMM/yyyy", { locale: ptBR })}`;
 }
 
 export function formatDateRange(period?: Period) {

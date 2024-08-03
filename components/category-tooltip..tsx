@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { formatCurrency } from '@/lib/utils';
+import { convertAmountFromCents, formatCurrency } from '@/lib/utils';
 import { format } from 'date-fns'
 
 
@@ -23,7 +23,7 @@ export const CategoryTooltip = ({ active, payload }: any) => {
                 Despesas
               </p>
             <p className='text-sm text-right font-medium'>
-              {formatCurrency(value)}
+              {formatCurrency(convertAmountFromCents(value))}
             </p>
           </div>
         </div>

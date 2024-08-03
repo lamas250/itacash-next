@@ -5,16 +5,16 @@ import { convertAmountFromCents } from "@/lib/utils";
 
 export const useGetSummary = () => {
   const params = useSearchParams();
-  const from = params.get('from') || '';
-  const to = params.get('to') || '';
+  const month = params.get('month') || '';
+  const year = params.get('year') || '';
 
   const query = useQuery({
-    queryKey: ["summary", { from, to }],
+    queryKey: ["summary", { month, year }],
     queryFn: async () => {
       const response = await client.api.summary.$get({
         query: {
-          from,
-          to
+          month,
+          year
         }
       });
 

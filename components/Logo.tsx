@@ -20,7 +20,12 @@ export const Logo = ({ size = 'md' }) => {
 
   return (
     <div className="flex gap-2">
-      <Image src={'logo.svg'} alt="Logo" width={ sizes[size] } height={sizes[size]} />
+      <Image
+        src={'logo.svg'}
+        alt="Logo"
+        width={sizes[size]}
+        height={sizes[size]}
+      />
       <p className={cn('font-bold', textSizes[size])}>Itacash</p>
     </div>
   )

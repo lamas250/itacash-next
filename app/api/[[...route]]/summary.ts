@@ -2,7 +2,7 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { z } from "zod";
-import { subDays, parse, differenceInDays } from "date-fns";
+import { subMonths, startOfMonth, endOfMonth  } from "date-fns";
 import db from "@/db/drizzle";
 import { and, sql, sum, eq, lte, gte, lt, desc } from "drizzle-orm";
 import { categories, transactions } from "@/db/schema";
@@ -15,27 +15,24 @@ const app = new Hono()
     zValidator(
       "query",
       z.object({
-        from: z.string().optional(),
-        to: z.string().optional(),
+        month: z.string().optional(),
+        year: z.string().optional(),
       })
     ),
     async (c) => {
       const user = getAuth(c);
-
       if (!user?.userId) {
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const { from, to } = c.req.valid("query");
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
+      const { month, year } = c.req.valid("query");
 
-      const startDate = from ? parse(from, "yyyy-MM-dd", new Date()) : defaultFrom;
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+      const defaultTo = month && year ? new Date(`${year}-${month}-01`) : new Date();
+      const firstDayOfMonth = startOfMonth(defaultTo);
+      const lastDayOfMonth = endOfMonth(defaultTo);
 
-      const periodLength = differenceInDays(endDate, startDate) + 1;
-      const lastPeriodStart = subDays(startDate, periodLength);
-      const lastPeriodEnd = subDays(endDate, periodLength);
+      const firstDayOfLastMonth = startOfMonth(subMonths(defaultTo, 1));
+      const lastDayOfLastMonth = endOfMonth(subMonths(defaultTo, 1));
 
       async function fetchFinancialData(
         startDate: Date,
@@ -59,8 +56,8 @@ const app = new Hono()
       }
 
       const [[currentPeriod], [lastPeriod]] = await Promise.all([
-        fetchFinancialData(startDate, endDate, user.userId),
-        fetchFinancialData(lastPeriodStart, lastPeriodEnd, user.userId),
+        fetchFinancialData(firstDayOfMonth, lastDayOfMonth, user.userId),
+        fetchFinancialData(firstDayOfLastMonth, lastDayOfLastMonth, user.userId),
       ]);
 
       const incomeChange = calculatePercentageChange(currentPeriod.income,lastPeriod.income);
@@ -78,8 +75,8 @@ const app = new Hono()
           and(
             eq(transactions.userId, user.userId),
             lt(transactions.amount, 0),
-            gte(transactions.date, startDate),
-            lte(transactions.date, endDate)
+            gte(transactions.date, firstDayOfMonth),
+            lte(transactions.date, lastDayOfMonth)
           )
         )
         .groupBy(categories.name)
@@ -106,8 +103,8 @@ const app = new Hono()
         .where(
           and(
             eq(transactions.userId, user.userId),
-            gte(transactions.date, startDate),
-            lte(transactions.date, endDate)
+            gte(transactions.date, firstDayOfMonth),
+            lte(transactions.date, lastDayOfMonth)
           )
         )
         .groupBy(transactions.date)
@@ -115,8 +112,8 @@ const app = new Hono()
 
       const days = fillMissingDays(
         activeDays,
-        startDate,
-        endDate
+        firstDayOfMonth,
+        lastDayOfMonth
       );
 
 
@@ -130,6 +127,12 @@ const app = new Hono()
           expenseChange,
           categories: finalCategories,
           days
+        },
+        t: {
+          firstDayOfMonth,
+          lastDayOfMonth,
+          firstDayOfLastMonth,
+          lastDayOfLastMonth
         }
       })
     }

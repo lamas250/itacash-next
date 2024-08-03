@@ -92,12 +92,12 @@ export const CategoryForm = ({
                           <span className='text-3xl' role='img'>
                             {field.value}
                           </span>
-                          <p className='text-xs text-muted-foreground'>Clique para mudar</p>
+                          <span className='text-xs text-muted-foreground'>Clique para mudar</span>
                         </div>
                       ) : (
                         <div className='flex flex-col items-center gap-2'>
                           <CircleOff className='text-3lx' />
-                          <p className='text-xs text-muted-foreground'>Clique para selecionar</p>
+                          <span className='text-xs text-muted-foreground'>Clique para selecionar</span>
                         </div>
                       )}
                     </Button>
@@ -113,7 +113,7 @@ export const CategoryForm = ({
                 </Popover>
               </FormControl>
               <FormDescription>
-                <p className='text-xs text-muted-foreground'>Escolha um icone para a categoria</p>
+                <span className='text-xs text-muted-foreground'>Escolha um icone para a categoria</span>
               </FormDescription>
             </FormItem>
           )}
