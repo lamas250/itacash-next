@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 export type LogoProps = {
   size?: 'sm' | 'md' | 'lg'
@@ -19,7 +20,7 @@ export const Logo = ({ size = 'md' }) => {
   }
 
   return (
-    <div className="flex gap-2">
+    <Link className="flex gap-2 justify-center items-center" href={'/'}>
       <Image
         src={'logo.svg'}
         alt="Logo"
@@ -27,6 +28,6 @@ export const Logo = ({ size = 'md' }) => {
         height={sizes[size]}
       />
       <p className={cn('font-bold', textSizes[size])}>Itacash</p>
-    </div>
+    </Link>
   )
 }

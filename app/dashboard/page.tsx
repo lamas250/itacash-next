@@ -1,4 +1,4 @@
-import { DataGrid } from "@/app/(dashboard)/_components/data-grid";
+import { DataGrid } from "@/app/dashboard/_components/data-grid";
 import { DataCharts } from "@/components/data-charts";
 
 export default function DashboardPage() {

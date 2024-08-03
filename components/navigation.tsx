@@ -10,11 +10,11 @@ import { MenuIcon } from "lucide-react";
 
 const routes = [
   {
-    href: '/',
+    href: '/dashboard',
     label: 'Inicio'
   },
   {
-    href: '/transactions',
+    href: '/dashboard/transactions',
     label: 'Transações'
   },
   // {
@@ -22,7 +22,7 @@ const routes = [
   //   label: 'Accounts'
   // },
   {
-    href: '/categories',
+    href: '/dashboard/categories',
     label: 'Categorias'
   },
   // {
