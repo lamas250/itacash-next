@@ -2,29 +2,29 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 import { Plus } from "lucide-react";
 
+import { columns } from "@/app/dashboard/categories/columns";
 import { DataTable } from "@/components/data-table";
+import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
-import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
-import { useTransactionBulkDelete } from "@/features/transactions/api/use-bulk-delete-transactions";
-import { columns } from "@/app/(dashboard)/transactions/columns";
+import { useCategoryBulkDelete } from "@/features/categories/api/use-bulk-delete";
 
 
-const TransactionsPage = () => {
-  const newTransactionSheet = useNewTransaction();
+const CategoriesPage = () => {
+  const newCategory = useNewCategory();
 
-  const transactionsQuery = useGetTransactions();
-  const deleteTransactions = useTransactionBulkDelete();
+  const categoriesQuery = useGetCategories();
+  const deleteCategories = useCategoryBulkDelete();
 
-  const transactions = transactionsQuery.data || [];
+    const accounts = categoriesQuery.data || [];
 
   const isDisabled =
-    transactionsQuery.isLoading ||
-    deleteTransactions.isPending;
+    categoriesQuery.isLoading ||
+    deleteCategories.isPending;
 
-  if (transactionsQuery.isLoading) {
+  if (categoriesQuery.isLoading) {
     return (
       <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm">
@@ -46,9 +46,9 @@ const TransactionsPage = () => {
       >
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
           <CardTitle className="text-xl line-clamp-1">
-            Historico de Transações
+            Categorias
           </CardTitle>
-          <Button size={'sm'} onClick={newTransactionSheet.onOpen}>
+          <Button size={'sm'} onClick={newCategory.onOpen}>
             <Plus className="size-4 mr-2" />
             Novo
           </Button>
@@ -56,12 +56,12 @@ const TransactionsPage = () => {
         <CardContent>
           <DataTable
             columns={columns}
-            data={transactions}
+            data={accounts}
             filterKey="name"
             filterLabel="nome"
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
-              deleteTransactions.mutate({ ids });
+              deleteCategories.mutate({ ids });
             }}
             disable={isDisabled}
           />
@@ -71,4 +71,4 @@ const TransactionsPage = () => {
   )
 }
 
-export default TransactionsPage;
+export default CategoriesPage;

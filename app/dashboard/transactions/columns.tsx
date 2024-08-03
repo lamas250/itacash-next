@@ -9,7 +9,7 @@ import { client } from "@/lib/hono"
 import { format } from "date-fns"
 import { formatCurrency } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { Actions } from "@/app/(dashboard)/transactions/actions"
+import { Actions } from "@/app/dashboard/transactions/actions"
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction"
 
 export type ResponseType = InferResponseType<typeof client.api.transactions.$get, 200>["data"][0]
