@@ -10,9 +10,12 @@ import { DataTable } from "@/components/data-table";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCategoryBulkDelete } from "@/features/categories/api/use-bulk-delete";
+import CategoryList from "@/app/dashboard/categories/category-list";
+import { useState } from "react";
 
 
 const CategoriesPage = () => {
+  const [type, setType] = useState('expense');
   const newCategory = useNewCategory();
 
   const categoriesQuery = useGetCategories();
@@ -48,12 +51,13 @@ const CategoriesPage = () => {
           <CardTitle className="text-xl line-clamp-1">
             Categorias
           </CardTitle>
-          <Button size={'sm'} onClick={newCategory.onOpen}>
+          <Button size={'sm'} onClick={() => newCategory.onOpen}>
             <Plus className="size-4 mr-2" />
             Novo
           </Button>
         </CardHeader>
         <CardContent>
+          <CategoryList type={type} setType={setType} />
           <DataTable
             columns={columns}
             data={accounts}

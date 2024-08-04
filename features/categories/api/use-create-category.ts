@@ -16,6 +16,8 @@ export const useCreateCategory = () => {
     RequestType
     >({
       mutationFn: async (json) => {
+        console.log('EEEEE', json);
+
         const response = await client.api.categories.$post({ json });
         return response.json();
       },

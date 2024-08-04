@@ -7,17 +7,23 @@ import { z } from "zod";
 
 const formSchema = insertCategorySchema.pick({
   name: true,
-  icon: true
+  icon: true,
+  type: true,
+  parentCategoryId: true
 });
 
 type FormValues = z.input<typeof formSchema>;
 
 export const NewCategorySheet = () => {
-  const { isOpen, onClose } = useNewCategory();
+  const { isOpen, onClose, parentId } = useNewCategory();
   const mutation = useCreateCategory();
 
   const onSubmit = (values: FormValues) => {
-    mutation.mutate(values, {
+    mutation.mutate({
+      ...values,
+      parentCategoryId: parentId || '',
+      type: values.type || ''
+    }, {
       onSuccess: () => {
         onClose();
       }
@@ -36,10 +42,12 @@ export const NewCategorySheet = () => {
           </SheetDescription>
         </SheetHeader>
         <CategoryForm
+          parentId={parentId}
           onSubmit={onSubmit}
           defaultValues={{
             name: '',
-            icon: ''
+            icon: '',
+            type: ''
           }}
         />
       </SheetContent>

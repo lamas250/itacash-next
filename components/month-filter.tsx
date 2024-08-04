@@ -28,10 +28,8 @@ export const MonthFilter = ({ dateProps, onChange }: any) => {
   const params = useSearchParams();
   const month = params.get('month');
   const year = params.get('year');
-  console.log('params', params.get('month'), params.get('year'));
 
   const defaultTo = month && year ? new Date(`${year}-${month}-01`) : new Date();
-  console.log('defaultTo', defaultTo);
 
   const onChangeDate = (newDate: Date) => {
     setDate(newDate);

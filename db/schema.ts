@@ -9,10 +9,18 @@ export const categories = pgTable('categories', {
   icon: text('icon').notNull(),
   userId: text('user_id').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).notNull().defaultNow(),
+  type: text('type').notNull().default('expense'),
+
+  parentCategoryId: text('parent_category_id').references((): any => categories.id, {
+    onDelete: 'set null',
+  }),
 });
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
   transactions: many(transactions),
+  subcategories: many(categories, {
+    relationName: 'subcategories',
+  })
 }));
 
 export const insertCategorySchema = createInsertSchema(categories);

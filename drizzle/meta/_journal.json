@@ -8,6 +8,20 @@
       "when": 1722393499529,
       "tag": "0000_cloudy_colossus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1722776773961,
+      "tag": "0001_bright_nightshade",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722776914907,
+      "tag": "0002_early_boomerang",
+      "breakpoints": true
     }
   ]
 }
