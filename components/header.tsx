@@ -1,9 +1,10 @@
 import { Filters } from "@/components/filters";
 import { Logo } from "@/components/Logo";
 import { Navigation } from "@/components/navigation";
+import MenuDropdown from "@/components/navigation/menu-dropdown";
 import { WelcomeMsg } from "@/components/welcome-msg";
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
-import { Loader2 } from "lucide-react";
+import { Loader2, Settings2 } from "lucide-react";
 
 export const Header = () => {
   return (
@@ -17,12 +18,15 @@ export const Header = () => {
             </div>
             <Navigation />
           </div>
-          <ClerkLoaded>
-            <UserButton />
-          </ClerkLoaded>
-          <ClerkLoading>
-            <Loader2 className="size-6 animate-spin text-slate-400" />
-          </ClerkLoading>
+          <div className="flex flex-row gap-x-4">
+            <MenuDropdown />
+            <ClerkLoaded>
+              <UserButton />
+            </ClerkLoaded>
+            <ClerkLoading>
+              <Loader2 className="size-6 animate-spin text-slate-400" />
+            </ClerkLoading>
+          </div>
         </div>
         <WelcomeMsg />
         <Filters />

@@ -5,16 +5,16 @@ import { convertAmountFromCents } from "@/lib/utils";
 
 export const useGetTransactions = () => {
   const params = useSearchParams();
-  const from = params.get('from') || '';
-  const to = params.get('to') || '';
+  const month = params.get('month') || '';
+  const year = params.get('year') || '';
 
   const query = useQuery({
-    queryKey: ["transactions", { from, to }],
+    queryKey: ["transactions", { month, year }],
     queryFn: async () => {
       const response = await client.api.transactions.$get({
         query: {
-          from,
-          to
+          month,
+          year
         }
       });
 

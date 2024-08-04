@@ -9,11 +9,14 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } fr
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 
 const formSchema = insertCategorySchema.pick({
   name: true,
-  icon: true
+  icon: true,
+  type: true
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -24,6 +27,7 @@ type Props = {
   onSubmit: (values: FormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
+  parentId?: string;
 }
 
 export const CategoryForm = ({
@@ -31,7 +35,8 @@ export const CategoryForm = ({
   defaultValues,
   onSubmit,
   onDelete,
-  disabled
+  disabled,
+  parentId
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -39,6 +44,14 @@ export const CategoryForm = ({
   })
 
   const handleSubmit = (values: FormValues) => {
+    if (!form.getValues('name')) {
+      toast.error('Nome da categoria é obrigatório');
+      return;
+    }
+    if (!form.getValues('type')) {
+      toast.error('Selecione um tipo de transação');
+      return;
+    }
     onSubmit(values);
   }
 
@@ -68,6 +81,43 @@ export const CategoryForm = ({
                   placeholder='Supermercado, Casa, Serviços, etc.'
                   {...field}
                 />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name='type'
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Tipo de transação
+              </FormLabel>
+              <FormControl>
+                <div className='flex flex-row gap-x-2'>
+                  <Button
+                    type='button'
+                    variant='outline'
+                    className={cn(
+                      'w-full bg-rose-200 hover:bg-rose-600',
+                      field.value === 'expense' && 'bg-rose-500'
+                    )}
+                    onClick={() => field.onChange('expense')}
+                  >
+                    Despesa
+                  </Button>
+                  <Button
+                    type='button'
+                    variant='outline'
+                    className={cn(
+                      'w-full bg-emerald-200 hover:bg-emerald-600',
+                      field.value === 'income' && 'bg-emerald-500'
+                    )}
+                    onClick={() => field.onChange('income')}
+                  >
+                    Receita
+                  </Button>
+                </div>
               </FormControl>
             </FormItem>
           )}

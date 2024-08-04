@@ -22,21 +22,13 @@ const routes = [
   //   label: 'Accounts'
   // },
   {
-    href: '/dashboard/categories',
-    label: 'Categorias'
+    href: '/dashboard/budgets',
+    label: 'Budgets'
   },
-  // {
-  //   href: '/budgets',
-  //   label: 'Budgets'
-  // },
   // {
   //   href: '/reports',
   //   label: 'Reports'
   // },
-  {
-    href: '/settings',
-    label: 'Configurações'
-  },
 ]
 
 export const Navigation = () => {

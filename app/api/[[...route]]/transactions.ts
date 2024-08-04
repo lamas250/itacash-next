@@ -7,15 +7,14 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { createId } from '@paralleldrive/cuid2';
 import { z } from 'zod'
-import { parse, subDays } from 'date-fns';
-
+import { endOfMonth, startOfMonth } from 'date-fns';
 
 const app = new Hono()
   .get('/',
     clerkMiddleware(),
     zValidator("query", z.object({
-      from: z.string().optional(),
-      to: z.string().optional(),
+      month: z.string().optional(),
+      year: z.string().optional(),
     })),
     async (c) => {
       const user = getAuth(c);
@@ -24,13 +23,12 @@ const app = new Hono()
         return c.json({ error: 'Unauthorized' }, 401)
       }
 
-      const { from, to } = c.req.valid('query');
+      const { month, year } = c.req.valid('query');
 
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
+      const defaultTo = month && year ? new Date(`${year}-${month}-01`) : new Date();
+      const firstDayOfMonth = startOfMonth(defaultTo);
+      const lastDayOfMonth = endOfMonth(defaultTo);
 
-      const startDate = from ? parse(from, 'yyyy-MM-dd', new Date() ) : defaultFrom;
-      const endDate = to ? parse(to, 'yyyy-MM-dd', new Date()) : defaultTo;
 
       const data = await db
         .select({
@@ -47,8 +45,8 @@ const app = new Hono()
         .where(
           and(
             eq(transactions.userId, user.userId),
-            gte(transactions.date, startDate),
-            lte(transactions.date, endDate)
+            gte(transactions.date, firstDayOfMonth),
+            lte(transactions.date, lastDayOfMonth)
           )
       )
       .orderBy(desc(transactions.date))

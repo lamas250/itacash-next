@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import Svg from '/public/logo.svg'
 
 export type LogoProps = {
   size?: 'sm' | 'md' | 'lg'
@@ -22,7 +23,7 @@ export const Logo = ({ size = 'md' }) => {
   return (
     <Link className="flex gap-2 justify-center items-center" href={'/'}>
       <Image
-        src={'logo.svg'}
+        src={Svg}
         alt="Logo"
         width={sizes[size]}
         height={sizes[size]}
