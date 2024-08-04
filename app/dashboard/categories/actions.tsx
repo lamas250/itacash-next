@@ -14,9 +14,10 @@ import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
 type Props = {
   id: string;
+  categoryType: string;
 }
 
-export const Actions = ({ id }: Props) => {
+export const Actions = ({ id, categoryType }: Props) => {
   const { onOpen, onClose } = useOpenCategory();
   const [ConfirmDialog, confirm] = useConfirm(
     'Deseja realmente deletar esta categoria?',
@@ -48,7 +49,7 @@ export const Actions = ({ id }: Props) => {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             disabled={false}
-            onClick={() => onOpen(id)}
+            onClick={() => onOpen(id, categoryType)}
           >
             <Edit className="size-4 mr-2" />
             Editar

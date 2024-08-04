@@ -5,8 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 import { Plus } from "lucide-react";
 
-import { columns } from "@/app/dashboard/categories/columns";
-import { DataTable } from "@/components/data-table";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCategoryBulkDelete } from "@/features/categories/api/use-bulk-delete";
@@ -16,12 +14,12 @@ import { useState } from "react";
 
 const CategoriesPage = () => {
   const [type, setType] = useState('expense');
-  const newCategory = useNewCategory();
+  const { onOpen } = useNewCategory();
 
   const categoriesQuery = useGetCategories();
   const deleteCategories = useCategoryBulkDelete();
 
-    const accounts = categoriesQuery.data || [];
+    const categories = categoriesQuery.data || [];
 
   const isDisabled =
     categoriesQuery.isLoading ||
@@ -51,24 +49,13 @@ const CategoriesPage = () => {
           <CardTitle className="text-xl line-clamp-1">
             Categorias
           </CardTitle>
-          <Button size={'sm'} onClick={() => newCategory.onOpen}>
+          <Button size={'sm'} onClick={() => onOpen('', '')}>
             <Plus className="size-4 mr-2" />
             Novo
           </Button>
         </CardHeader>
         <CardContent>
-          <CategoryList type={type} setType={setType} />
-          <DataTable
-            columns={columns}
-            data={accounts}
-            filterKey="name"
-            filterLabel="nome"
-            onDelete={(row) => {
-              const ids = row.map((r) => r.original.id);
-              deleteCategories.mutate({ ids });
-            }}
-            disable={isDisabled}
-          />
+          <CategoryList type={type} setType={setType} categories={categories} />
         </CardContent>
       </Card>
     </div>
