@@ -23,10 +23,7 @@ export const NewTransactionSheet = () => {
 
   const categoryQuery = useGetCategories();
   const categoryMutation = useCreateCategory();
-  const onCreateCategory = (name: string) => categoryMutation.mutate({
-    name,
-    icon: '🚫'
-  })
+
   const categoryOptions = (categoryQuery.data ?? []).map((category) => ({
     label: category.name,
     value: category.id,
@@ -66,7 +63,7 @@ export const NewTransactionSheet = () => {
             onSubmit={onSubmit}
             disabled={isPending}
             categoryOptions={categoryOptions}
-            onCreateCategory={onCreateCategory}
+            onCreateCategory={() => {}}
           />
         )}
       </SheetContent>
