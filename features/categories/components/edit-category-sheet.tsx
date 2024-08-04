@@ -17,7 +17,7 @@ const formSchema = insertCategorySchema.pick({
 type FormValues = z.input<typeof formSchema>;
 
 export const EditCategorySheet = () => {
-  const { isOpen, onClose, id } = useOpenCategory();
+  const { isOpen, onClose, id, categoryType } = useOpenCategory();
 
   const [ConfirmDialog, confirm] = useConfirm(
     'Deseja realmente deletar esta categoria?',
@@ -84,6 +84,7 @@ export const EditCategorySheet = () => {
               disabled={isPending}
               defaultValues={defaultValues}
               onDelete={onDelete}
+              categoryType={categoryType}
             />
           )}
         </SheetContent>

@@ -56,7 +56,7 @@ const app = new Hono()
           name,
           icon,
           type,
-          parentCategoryId
+          parentCategoryId: parentCategoryId || null
         }).returning()
 
       return c.json({ data: data[0] });

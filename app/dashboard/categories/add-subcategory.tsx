@@ -6,16 +6,17 @@ import { Plus } from "lucide-react";
 
 type Props = {
   parentId: string;
+  parentType: string;
 }
 
-export const AddSubCategory = ({ parentId }: Props) => {
+export const AddSubCategory = ({ parentId, parentType }: Props) => {
   const { onOpen } = useNewCategory();
 
   return (
     <>
       <Button
         variant="outline" size="sm"
-        onClick={() => onOpen(parentId)}
+        onClick={() => onOpen(parentId, parentType)}
       >
         <Plus className="size-4 mr-1" />
         Sub-categoria

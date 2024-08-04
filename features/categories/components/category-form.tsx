@@ -28,6 +28,8 @@ type Props = {
   onDelete?: () => void;
   disabled?: boolean;
   parentId?: string;
+  parentType?: string;
+  categoryType?: string;
 }
 
 export const CategoryForm = ({
@@ -36,7 +38,8 @@ export const CategoryForm = ({
   onSubmit,
   onDelete,
   disabled,
-  parentId
+  parentType,
+  categoryType
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -98,9 +101,10 @@ export const CategoryForm = ({
                   <Button
                     type='button'
                     variant='outline'
+                    disabled={parentType === 'income' || categoryType === 'income'}
                     className={cn(
                       'w-full bg-rose-200 hover:bg-rose-600',
-                      field.value === 'expense' && 'bg-rose-500'
+                      (field.value === 'expense' || categoryType === 'expense') && 'bg-rose-500'
                     )}
                     onClick={() => field.onChange('expense')}
                   >
@@ -109,9 +113,10 @@ export const CategoryForm = ({
                   <Button
                     type='button'
                     variant='outline'
+                    disabled={parentType === 'expense' || categoryType === 'expense'}
                     className={cn(
                       'w-full bg-emerald-200 hover:bg-emerald-600',
-                      field.value === 'income' && 'bg-emerald-500'
+                      (field.value === 'income' || categoryType === 'income') && 'bg-emerald-500'
                     )}
                     onClick={() => field.onChange('income')}
                   >

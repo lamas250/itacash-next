@@ -16,12 +16,12 @@ import { useState } from "react";
 
 const CategoriesPage = () => {
   const [type, setType] = useState('expense');
-  const newCategory = useNewCategory();
+  const { onOpen } = useNewCategory();
 
   const categoriesQuery = useGetCategories();
   const deleteCategories = useCategoryBulkDelete();
 
-    const accounts = categoriesQuery.data || [];
+    const categories = categoriesQuery.data || [];
 
   const isDisabled =
     categoriesQuery.isLoading ||
@@ -51,24 +51,13 @@ const CategoriesPage = () => {
           <CardTitle className="text-xl line-clamp-1">
             Categorias
           </CardTitle>
-          <Button size={'sm'} onClick={() => newCategory.onOpen}>
+          <Button size={'sm'} onClick={() => onOpen('', '')}>
             <Plus className="size-4 mr-2" />
             Novo
           </Button>
         </CardHeader>
         <CardContent>
-          <CategoryList type={type} setType={setType} />
-          <DataTable
-            columns={columns}
-            data={accounts}
-            filterKey="name"
-            filterLabel="nome"
-            onDelete={(row) => {
-              const ids = row.map((r) => r.original.id);
-              deleteCategories.mutate({ ids });
-            }}
-            disable={isDisabled}
-          />
+          <CategoryList type={type} setType={setType} categories={categories} />
         </CardContent>
       </Card>
     </div>

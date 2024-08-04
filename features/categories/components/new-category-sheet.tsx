@@ -15,7 +15,7 @@ const formSchema = insertCategorySchema.pick({
 type FormValues = z.input<typeof formSchema>;
 
 export const NewCategorySheet = () => {
-  const { isOpen, onClose, parentId } = useNewCategory();
+  const { isOpen, onClose, parentId, parentType } = useNewCategory();
   const mutation = useCreateCategory();
 
   const onSubmit = (values: FormValues) => {
@@ -43,11 +43,12 @@ export const NewCategorySheet = () => {
         </SheetHeader>
         <CategoryForm
           parentId={parentId}
+          parentType={parentType}
           onSubmit={onSubmit}
           defaultValues={{
             name: '',
             icon: '',
-            type: ''
+            type: parentType || ''
           }}
         />
       </SheetContent>
