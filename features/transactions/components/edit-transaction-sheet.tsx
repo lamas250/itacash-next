@@ -9,6 +9,7 @@ import { TransactionForm } from "@/features/transactions/components/transaction-
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
 import { convertAmountFromCents, convertAmountInCents } from "@/lib/utils";
+import { is } from "drizzle-orm";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 
@@ -81,6 +82,14 @@ export const EditTransactionSheet = () => {
     }
   }
 
+  if (isPending || isLoading || !transactionQuery.data) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Loader2 className="size-4 text-muted-foreground animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <>
       <ConfirmDialog />
@@ -106,7 +115,8 @@ export const EditTransactionSheet = () => {
               defaultValues={defaultValues}
               onDelete={onDelete}
               categoryOptions={categoryOptions}
-              onCreateCategory={() => {}}
+              onCreateCategory={() => { }}
+              type={transactionQuery.data?.amount < 0 ? 'expense' : 'income'}
             />
           )}
         </SheetContent>

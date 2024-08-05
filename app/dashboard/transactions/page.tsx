@@ -48,10 +48,24 @@ const TransactionsPage = () => {
           <CardTitle className="text-xl line-clamp-1">
             Historico de Transações
           </CardTitle>
-          <Button size={'sm'} onClick={newTransactionSheet.onOpen}>
-            <Plus className="size-4 mr-2" />
-            Novo
-          </Button>
+          <div className="flex flex-row gap-x-2">
+            <Button
+              size={'sm'}
+              onClick={() => newTransactionSheet.onOpen('expense')}
+              className="bg-rose-500 hover:bg-rose-500/70"
+            >
+              <Plus className="size-4 mr-2" />
+              Despesa
+            </Button>
+            <Button
+              size={'sm'}
+              onClick={() => newTransactionSheet.onOpen('income')}
+              className="bg-emerald-500 hover:bg-emerald-500/70"
+            >
+              <Plus className="size-4 mr-2" />
+              Receita
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <DataTable

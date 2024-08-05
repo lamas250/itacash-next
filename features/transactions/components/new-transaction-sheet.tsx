@@ -18,7 +18,7 @@ const formSchema = insetTransactionSchema.omit({
 type FormValues = z.input<typeof formSchema>;
 
 export const NewTransactionSheet = () => {
-  const { isOpen, onClose } = useNewTransaction();
+  const { isOpen, onClose, type } = useNewTransaction();
   const createTransactionMutation = useCreateTransaction();
 
   const categoryQuery = useGetCategories();
@@ -63,7 +63,8 @@ export const NewTransactionSheet = () => {
             onSubmit={onSubmit}
             disabled={isPending}
             categoryOptions={categoryOptions}
-            onCreateCategory={() => {}}
+            onCreateCategory={() => { }}
+            type={type}
           />
         )}
       </SheetContent>
