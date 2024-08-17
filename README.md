@@ -1,10 +1,13 @@
 # Itacash - Personal Financial Management
 
+[Itacash App](https://itacash.vercel.app/dashboard/transactions)
+
 This project is a personal financial management application, designed to help you easily track and manage your finances. The application allows you to record and monitor your income and expenses, making it easier to keep your finances in check.
 
 ## Technologies Used
 * Next.js 14: A React framework for full-stack development, focused on performance and scalability.
 * Hono: A minimalist and high-performance HTTP server for web applications.
+* Clerk: Authentication
 * Shadcn: A component library built with Tailwind CSS, providing a modern and customizable design system.
 * Tailwind CSS: A utility-first CSS framework for rapidly building custom user interfaces.
 * React Query: A powerful data-fetching and state management library for React, simplifying server-state management.
@@ -26,6 +29,6 @@ pnpm dev
 * Data Visualization: Visualize your financial data through tables and charts, making it easier to analyze trends.
 * Responsive Design: The application is fully responsive, ensuring a seamless experience on both desktop and mobile devices.
 
+![itacash](https://github.com/lamas250/itacash-next/blob/main/public/itacash1.jpeg)
 
-
-
+![itacash2](https://github.com/lamas250/itacash-next/blob/main/public/itacash2.jpeg)
