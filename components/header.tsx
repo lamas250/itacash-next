@@ -4,7 +4,7 @@ import { Navigation } from "@/components/navigation";
 import MenuDropdown from "@/components/navigation/menu-dropdown";
 import { WelcomeMsg } from "@/components/welcome-msg";
 import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
-import { Loader2, Settings2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export const Header = () => {
   return (

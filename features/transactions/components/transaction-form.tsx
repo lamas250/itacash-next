@@ -36,6 +36,7 @@ type Props = {
   disabled?: boolean;
   categoryOptions: { label: string, value: string, icon?: string }[];
   onCreateCategory: (name: string) => void;
+  type: 'expense' | 'income';
 }
 
 export const TransactionForm = ({
@@ -45,7 +46,8 @@ export const TransactionForm = ({
   onDelete,
   disabled,
   categoryOptions,
-  onCreateCategory
+  onCreateCategory,
+  type
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -56,7 +58,7 @@ export const TransactionForm = ({
     const amountInCents = convertAmountInCents(parseFloat(values.amount));
     onSubmit({
       ...values,
-      amount: amountInCents
+      amount: type === 'expense' ? -amountInCents : amountInCents
     });
   }
 
@@ -119,6 +121,7 @@ export const TransactionForm = ({
                   disabled={disabled}
                   placeholder='R$ 0.00'
                   {...field}
+                  amountType={type}
                 />
               </FormControl>
             </FormItem>

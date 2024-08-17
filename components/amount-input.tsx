@@ -8,17 +8,18 @@ type Props = {
   onChange: (value: string | undefined) => void;
   placeholder?: string;
   disabled?: boolean;
+  amountType?: 'income' | 'expense';
 }
 
 export const AmountInput = ({
   value,
   onChange,
   placeholder,
-  disabled
+  disabled,
+  amountType
 }: Props) => {
-  const parsedValue = parseFloat(value);
-  const isIncome = parsedValue > 0;
-  const isExpense = parsedValue < 0;
+  const isIncome = amountType === 'income';
+  const isExpense = amountType === 'expense';
 
   const onReverseValue = () => {
     if (!value) {
@@ -43,13 +44,13 @@ export const AmountInput = ({
                 isExpense && "bg-rose-500 hover:bg-rose-600",
               )}
             >
-              {!parsedValue && <Info className='size-4 text-white' />}
               {isIncome && <PlusCircle className='size-4  text-white' />}
               {isExpense && <MinusCircle className='size-4  text-white' />}
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            Use [+] para adicionar uma receita e [-] para adicionar uma despesa.
+            {isIncome && 'Essa transação sera uma receita'}
+            {isExpense && 'Essa transação sera uma despesa'}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -58,7 +59,7 @@ export const AmountInput = ({
         className="pl-11 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder={placeholder}
         disabled={disabled}
-        value={value}
+        value={value ? value.replace('-', '') : value}
         decimalsLimit={2}
         onValueChange={onChange}
         decimalScale={2}

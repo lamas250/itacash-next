@@ -42,8 +42,8 @@ export default function CategoryList({ type, setType, categories }: Props) {
             variant={'ghost'}
             size={'sm'}
             className={cn(
-              "w-1/2 p-2 ml-1 bg-slate-100 hover:bg-rose-300/50 transition-colors",
-              type === 'expense' && 'bg-rose-500'
+              "w-1/2 p-2 ml-1 bg-slate-100 hover:bg-rose-300/40 transition-colors",
+              type === 'expense' && 'bg-rose-300'
             )}
             onClick={() => setType('expense')}
           >
@@ -53,8 +53,8 @@ export default function CategoryList({ type, setType, categories }: Props) {
             variant={'ghost'}
             size={'sm'}
             className={cn(
-              "w-1/2 p-2 mr-1 bg-slate-100 hover:bg-emerald-300/50 transition-colors",
-              type === 'income' && 'bg-emerald-500'
+              "w-1/2 p-2 mr-1 bg-slate-100 hover:bg-emerald-300/40 transition-colors",
+              type === 'income' && 'bg-emerald-300'
             )}
             onClick={() => setType('income')}
           >
