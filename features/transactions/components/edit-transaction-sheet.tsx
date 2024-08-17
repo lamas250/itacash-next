@@ -8,8 +8,7 @@ import { useGetTransaction } from "@/features/transactions/api/use-get-transacti
 import { TransactionForm } from "@/features/transactions/components/transaction-form";
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useConfirm } from "@/hooks/use-confirm";
-import { convertAmountFromCents, convertAmountInCents } from "@/lib/utils";
-import { is } from "drizzle-orm";
+import { convertAmountFromCents } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
 
@@ -115,7 +114,7 @@ export const EditTransactionSheet = () => {
               defaultValues={defaultValues}
               onDelete={onDelete}
               categoryOptions={categoryOptions}
-              onCreateCategory={() => { }}
+              onCreateCategory={() => {}}
               type={transactionQuery.data?.amount < 0 ? 'expense' : 'income'}
             />
           )}

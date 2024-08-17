@@ -13,7 +13,7 @@ import { columns } from "@/app/dashboard/transactions/columns";
 
 
 const TransactionsPage = () => {
-  const newTransactionSheet = useNewTransaction();
+  const { onOpen} = useNewTransaction();
 
   const transactionsQuery = useGetTransactions();
   const deleteTransactions = useTransactionBulkDelete();
@@ -51,7 +51,7 @@ const TransactionsPage = () => {
           <div className="flex flex-row gap-x-2">
             <Button
               size={'sm'}
-              onClick={() => newTransactionSheet.onOpen('expense')}
+              onClick={() => onOpen('expense')}
               className="bg-rose-500 hover:bg-rose-500/70"
             >
               <Plus className="size-4 mr-2" />
@@ -59,7 +59,7 @@ const TransactionsPage = () => {
             </Button>
             <Button
               size={'sm'}
-              onClick={() => newTransactionSheet.onOpen('income')}
+              onClick={() => onOpen('income')}
               className="bg-emerald-500 hover:bg-emerald-500/70"
             >
               <Plus className="size-4 mr-2" />

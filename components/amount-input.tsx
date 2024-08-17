@@ -44,7 +44,6 @@ export const AmountInput = ({
                 isExpense && "bg-rose-500 hover:bg-rose-600",
               )}
             >
-              {/* {!parsedValue && <Info className='size-4 text-white' />} */}
               {isIncome && <PlusCircle className='size-4  text-white' />}
               {isExpense && <MinusCircle className='size-4  text-white' />}
             </button>
